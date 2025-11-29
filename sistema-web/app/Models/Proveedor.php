@@ -16,11 +16,5 @@ class Proveedor extends Model
         'telefono',
         'email',
         'descripcion',
-        'restaurante_id',
     ];
-
-    public function restaurante()
-    {
-        return $this->belongsTo(Restaurante::class);
-    }
 }

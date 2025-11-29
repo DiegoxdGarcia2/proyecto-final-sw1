@@ -15,7 +15,7 @@ new class extends Component {
 
     public function mount()
     {
-        $this->insumos = auth()->user()->restaurante->insumos;
+        $this->insumos = Insumo::all();
     }
 
     public function predecir()

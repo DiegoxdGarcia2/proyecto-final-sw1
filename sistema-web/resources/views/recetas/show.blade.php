@@ -6,7 +6,7 @@
         <div class="row align-items-center">
             <div class="col-md-6">
                 <div class="title mb-30">
-                    <h2>{{ __('Recetas del Restaurante') }}</h2>
+                    <h2>{{ __('Recetas') }}</h2>
                 </div>
             </div>
             <!-- end col -->

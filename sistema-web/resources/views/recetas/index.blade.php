@@ -6,7 +6,7 @@
         <div class="row align-items-center">
             <div class="col-md-6">
                 <div class="title mb-30">
-                    <h2>{{ __('Recetas del Restaurante') }}</h2>
+                    <h2>{{ __('Recetas') }}</h2>
                 </div>
             </div>
             <!-- end col -->
@@ -20,11 +20,14 @@
             <div class="col-lg-12">
                 <div class="card-style mb-30">
                     <h6 class="mb-10">Tabla de recetas</h6>
-                    <p>Estas recetas son platillos que prepara el restaurante, cada receta esta calculada para 1 porción.</p>
+                    <p>Estas recetas son platillos que prepara el sistema, cada receta está calculada para 1 porción.</p>
+                    @unless(auth()->user()->hasRole('mesero'))
                     <a href="{{ route('recetas.create') }}" class="main-btn dark-btn btn-hover mt-3">
                         <i class="lni lni-circle-plus"></i>
                         Crear nuevo
                     </a>
+                    @endunless
+
                     <div class="table-wrapper table-responsive">
                         <table class="table">
                             <thead>
@@ -35,9 +38,11 @@
                                     <th class="lead-email">
                                         <h6>Tiempo de preparación</h6>
                                     </th>
+                                    @unless(auth()->user()->hasRole('mesero'))
                                     <th>
                                         <h6>Acciones</h6>
                                     </th>
+                                    @endunless
                                 </tr>
                                 <!-- end table row-->
                             </thead>
@@ -57,25 +62,27 @@
                                         <td class="min-width">
                                             <p>{{ $receta->tiempo_preparacion }} minutos</p>
                                         </td>
+                                        @unless(auth()->user()->hasRole('mesero'))
                                         <td>
-                                            <div class="action">
-                                                <a href="{{ route('recetas.show', $receta->id) }}" class="text-success">
-                                                    <i class="lni lni-eye"></i>
+                                            <div class="action d-flex gap-2">
+                                                <a href="{{ route('recetas.edit', $receta->id) }}" 
+                                                   class="main-btn dark-btn btn-hover"
+                                                   style="background-color: #5A2828; border-color: #5A2828; font-size: 14px; padding: 5px 15px; border-radius: 6px;">
+                                                    EDITAR
                                                 </a>
-                                                <form action="{{ route('recetas.destroy', $receta->id) }}"
-                                                    method="POST">
+                                                <form action="{{ route('recetas.destroy', $receta->id) }}" method="POST" class="d-inline">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="submit" class="text-danger">
-                                                        <i class="lni lni-trash-can"></i>
+                                                    <button type="submit" 
+                                                            class="main-btn dark-btn btn-hover"
+                                                            style="background-color: #5A2828; border-color: #5A2828; font-size: 14px; padding: 5px 15px; border-radius: 6px;"
+                                                            onclick="return confirm('¿Estás seguro de que deseas eliminar esta receta?')">
+                                                        ELIMINAR
                                                     </button>
                                                 </form>
-                                                <a href="{{ route('recetas.edit', $receta->id) }}"
-                                                    class="text-primary">
-                                                    <i class="lni lni-pencil"></i>
-                                                </a>
                                             </div>
                                         </td>
+                                        @endunless
                                     </tr>
                                 @empty
                                     <tr>

@@ -28,6 +28,21 @@
                 </div>
 
                 <div class="form-group">
+                    <label for="direccion">Dirección</label>
+                    <input type="text" name="direccion" class="form-control" value="{{ old('direccion', $proveedor->direccion) }}">
+                </div>
+
+                <div class="form-group">
+                    <label for="telefono">Teléfono</label>
+                    <input type="text" name="telefono" class="form-control" value="{{ old('telefono', $proveedor->telefono) }}">
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" name="email" class="form-control" value="{{ old('email', $proveedor->email) }}">
+                </div>
+
+                <div class="form-group">
                     <label for="descripcion">Descripción</label>
                     <textarea name="descripcion" class="form-control">{{ old('descripcion', $proveedor->descripcion) }}</textarea>
                 </div>

@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>InsumoPredict - Predicción de Insumos con IA</title>
+    <title>Las Brazas - Restaurante</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         * {
             margin: 0;
@@ -15,312 +16,196 @@
 
         body {
             font-family: 'Poppins', sans-serif;
-            background-color: #f5f8fa;
-            color: #333;
-        }
-
-        header {
-            background: #1e3a8a;
-            color: white;
-            padding: 20px 50px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        header h1 {
-            font-size: 2rem;
-        }
-
-        nav ul {
-            list-style: none;
-            display: flex;
-            gap: 20px;
-        }
-
-        nav ul li a {
-            color: white;
-            text-decoration: none;
-            font-weight: 600;
-            transition: color 0.3s;
-        }
-
-        nav ul li a:hover {
-            color: #93c5fd;
-        }
-
-        .hero {
-            background: url('https://images.unsplash.com/photo-1603791440384-56cd371ee9a7') no-repeat center center/cover;
-            height: 70vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            color: white;
+            color: #fff;
+            min-height: 100vh;
             position: relative;
+            background: #1a1a1a;
         }
 
-        .hero::before {
-            content: "";
-            position: absolute;
+        body::before {
+            content: '';
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(30, 58, 138, 0.85);
+            background: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)),
+                        url('/images/fondo.jpg') no-repeat center center/cover;
+            z-index: -1;
         }
 
-        .hero h2,
-        .hero p,
-        .hero a {
+        .social-links {
+            position: fixed;
+            right: 30px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            z-index: 2;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.2rem;
+            transition: all 0.3s;
+            padding: 10px;
+            border-radius: 10px;
+            background: rgba(255, 77, 77, 0.2);
+        }
+
+        .social-link:hover {
+            background: rgba(255, 77, 77, 0.4);
+            transform: translateX(-5px);
+        }
+
+        .social-link i {
+            font-size: 1.8rem;
+            margin-right: 10px;
+        }
+
+        .social-link span {
+            font-size: 0.9rem;
+            white-space: nowrap;
+            opacity: 0;
+            transform: translateX(20px);
+            transition: all 0.3s;
+        }
+
+        .social-link:hover span {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            text-align: center;
+            padding: 0 20px;
             position: relative;
             z-index: 1;
+            padding-bottom: 100px;
         }
 
-        .hero h2 {
-            font-size: 3rem;
+        .hero-content {
+            max-width: 800px;
+            padding: 40px;
+        }
+
+        .hero h1 {
+            font-size: 5rem;
+            margin-bottom: 20px;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(255, 77, 77, 0.5);
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(45deg, #ff4d4d, #ff8080);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.5));
         }
 
         .hero p {
-            font-size: 1.2rem;
-            margin: 15px 0;
+            font-size: 1.8rem;
+            margin-bottom: 40px;
+            color: #fff;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+            line-height: 1.6;
         }
 
-        .hero a {
-            background: #3b82f6;
+        .cta-buttons {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+        }
+
+        .cta-button {
+            background: linear-gradient(45deg, #ff4d4d, #ff8080);
             color: white;
-            padding: 15px 30px;
+            padding: 15px 40px;
             text-decoration: none;
             font-weight: 600;
-            border-radius: 8px;
-            transition: background 0.3s;
+            border-radius: 50px;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 15px rgba(255, 77, 77, 0.4);
         }
 
-        .hero a:hover {
-            background: #2563eb;
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(255, 77, 77, 0.6);
+            background: linear-gradient(45deg, #ff3333, #ff6666);
         }
 
-        .about-us {
-            display: flex;
-            align-items: center;
-            justify-content: space-around;
-            padding: 50px;
-            background: #f0f4f8;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 3rem;
+            }
 
-        .about-us img {
-            width: 40%;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
+            .hero p {
+                font-size: 1.4rem;
+            }
 
-        .about-us div {
-            width: 50%;
-        }
+            .cta-buttons {
+                flex-direction: row;
+                gap: 15px;
+            }
 
-        .about-us h2 {
-            font-size: 2.5rem;
-            color: #1e3a8a;
-            margin-bottom: 20px;
-        }
+            .social-links {
+                position: fixed;
+                bottom: 20px;
+                right: 50%;
+                top: auto;
+                transform: translateX(50%);
+                flex-direction: row;
+                padding: 15px;
+            }
 
-        .about-us p {
-            font-size: 1.1rem;
-            line-height: 1.6;
-            color: #333;
-        }
+            .social-link {
+                font-size: 1.5rem;
+            }
 
-        .features,
-        .additional-content {
-            display: flex;
-            justify-content: space-around;
-            padding: 50px;
-            background: white;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
-
-        .feature-box,
-        .additional-box {
-            width: 30%;
-            background: #f0f4f8;
-            padding: 20px;
-            border-radius: 12px;
-            text-align: center;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s;
-        }
-
-        .feature-box:hover,
-        .additional-box:hover {
-            transform: translateY(-10px);
-        }
-
-        .feature-box img,
-        .additional-box img {
-            width: 80px;
-            margin-bottom: 20px;
-        }
-
-        .feature-box h3,
-        .additional-box h3 {
-            font-size: 1.5rem;
-            margin-bottom: 10px;
-        }
-
-        .feature-box p,
-        .additional-box p {
-            font-size: 1rem;
-        }
-
-        footer {
-            background: #1e3a8a;
-            color: white;
-            text-align: center;
-            padding: 20px;
+            .social-link span {
+                display: none;
+            }
         }
     </style>
 </head>
 
 <body>
-    <header>
-        <h1>InsumoPredict</h1>
-        <nav>
-            <ul>
-                <li><a href="#">Inicio</a></li>
-                <li><a href="#">Sobre Nosotros</a></li>
-                <li><a href="#">Servicios</a></li>
-                <li><a href="#">Contacto</a></li>
-                <li><a href="{{ route('login') }}">Login</a></li>
-            </ul>
-        </nav>
-    </header>
-
-    <section class="hero">
-        <div>
-            <h2>Predicción Inteligente de Insumos</h2>
-            <p>Optimiza tus recursos con la precisión de la inteligencia artificial.</p>
-            <a href="{{ route('register') }}">Comenzar Ahora</a>
-        </div>
-    </section>
-
-    <section class="about-us">
-        <img src="{{ asset('images/jovas.webp') }}" alt="Equipo de trabajo">
-        <div>
-            <h2>Sobre Nosotros</h2>
-            <p>En InsumoPredict, nos especializamos en la implementación de soluciones de inteligencia artificial para
-                optimizar la gestión de insumos en diversas industrias. Nuestro equipo combina experiencia tecnológica y
-                conocimiento del mercado para ofrecer predicciones precisas y estratégicas, ayudando a las empresas a
-                reducir costos y mejorar la eficiencia operativa.</p>
-        </div>
-    </section>
-
-    <section class="features">
-        <div class="feature-box">
-            <img src="https://img.icons8.com/color/96/000000/ai.png" alt="IA Predictiva">
-            <h3>IA Predictiva</h3>
-            <p>Utiliza algoritmos avanzados para predecir la demanda de insumos con precisión.</p>
-        </div>
-        <div class="feature-box">
-            <img src="https://img.icons8.com/color/96/000000/data-configuration.png" alt="Análisis de Datos">
-            <h3>Análisis de Datos</h3>
-            <p>Transforma grandes volúmenes de datos en decisiones estratégicas.</p>
-        </div>
-        <div class="feature-box">
-            <img src="https://img.icons8.com/color/96/000000/factory.png" alt="Optimización de Recursos">
-            <h3>Optimización de Recursos</h3>
-            <p>Reduce costos y maximiza la eficiencia operativa con nuestras soluciones.</p>
-        </div>
-    </section>
-
-    <section class="additional-content">
-        <div class="additional-box">
-            <img src="https://img.icons8.com/color/96/000000/automation.png" alt="Automatización">
-            <h3>Automatización Inteligente</h3>
-            <p>Automatiza procesos críticos para ahorrar tiempo y recursos.</p>
-        </div>
-        <div class="additional-box">
-            <img src="https://img.icons8.com/color/96/000000/statistics.png" alt="Informes Detallados">
-            <h3>Informes Detallados</h3>
-            <p>Obtén reportes visuales que facilitan la toma de decisiones estratégicas.</p>
-        </div>
-        <div class="additional-box">
-            <img src="https://img.icons8.com/color/96/000000/teamwork.png" alt="Soporte Personalizado">
-            <h3>Soporte Personalizado</h3>
-            <p>Un equipo de expertos listos para ayudarte en cada paso del camino.</p>
-        </div>
-    </section>
-    <section class="pricing-section" style="padding: 50px 0; background-color: #f5f8fa;">
-        <div class="container" style="max-width: 1200px; margin: 0 auto; padding: 0 20px;">
-            <div style="display: flex; justify-content: space-between; gap: 20px; flex-wrap: wrap;">
-                <!-- Plan Individual -->
-                <div class="pricing-card"
-                    style="flex: 1; min-width: 300px; background-color: white; border-radius: 10px; padding: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
-                    <div
-                        style="background-color: #ffcdd2; display: inline-block; padding: 4px 12px; border-radius: 4px; margin-bottom: 15px; color: #1e3a8a;">
-                        USD 0 por 1 mes
-                    </div>
-                    <h3 style="font-size: 28px; margin: 10px 0; color: #1e3a8a;">Individual</h3>
-                    <p style="color: #666; margin-bottom: 5px;">USD 0 por 1 mes</p>
-                    <p style="color: #666; margin-bottom: 20px;">Después, USD 5.99 por mes</p>
-                    <ul style="list-style: none; padding: 0; margin: 20px 0;">
-                        <li style="margin: 10px 0; color: #333;">✓ 1 cuenta Premium</li>
-                        <li style="margin: 10px 0; color: #333;">✓ Cancela cuando quieras</li>
-                    </ul>
-                    <button
-                        style="width: 100%; padding: 15px; background-color: #1e3a8a; color: white; border: none; border-radius: 25px; font-weight: bold; cursor: pointer; transition: background-color 0.3s;">
-                        Probar 1 mes por USD 0
-                    </button>
-                    <p style="font-size: 12px; color: #666; margin-top: 15px;">Se aplican Términos.</p>
-                </div>
-
-                <!-- Plan Estudiantes -->
-                <div class="pricing-card"
-                    style="flex: 1; min-width: 300px; background-color: white; border-radius: 10px; padding: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
-                    <div
-                        style="background-color: #e6e6fa; display: inline-block; padding: 4px 12px; border-radius: 4px; margin-bottom: 15px; color: #1e3a8a;">
-                        USD 0 por 1 mes
-                    </div>
-                    <h3 style="font-size: 28px; margin: 10px 0; color: #1e3a8a;">Estudiantes</h3>
-                    <p style="color: #666; margin-bottom: 5px;">USD 0 por 1 mes</p>
-                    <p style="color: #666; margin-bottom: 20px;">Después, USD 2.99 por mes</p>
-                    <ul style="list-style: none; padding: 0; margin: 20px 0;">
-                        <li style="margin: 10px 0; color: #333;">✓ 1 cuenta Premium verificada</li>
-                        <li style="margin: 10px 0; color: #333;">✓ Descuento para estudiantes</li>
-                        <li style="margin: 10px 0; color: #333;">✓ Cancela cuando quieras</li>
-                    </ul>
-                    <button
-                        style="width: 100%; padding: 15px; background-color: #1e3a8a; color: white; border: none; border-radius: 25px; font-weight: bold; cursor: pointer; transition: background-color 0.3s;">
-                        Probar 1 mes por USD 0
-                    </button>
-                    <p style="font-size: 12px; color: #666; margin-top: 15px;">Se aplican Términos.</p>
-                </div>
-
-                <!-- Plan Duo -->
-                <div class="pricing-card"
-                    style="flex: 1; min-width: 300px; background-color: white; border-radius: 10px; padding: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
-                    <h3 style="font-size: 28px; margin: 10px 0; color: #1e3a8a;">Duo</h3>
-                    <p style="color: #666; margin-bottom: 20px;">USD 7.99 al mes</p>
-                    <ul style="list-style: none; padding: 0; margin: 20px 0;">
-                        <li style="margin: 10px 0; color: #333;">✓ 2 cuentas Premium</li>
-                        <li style="margin: 10px 0; color: #333;">✓ Cancela cuando quieras</li>
-                    </ul>
-                    <button
-                        style="width: 100%; padding: 15px; background-color: #1e3a8a; color: white; border: none; border-radius: 25px; font-weight: bold; cursor: pointer; transition: background-color 0.3s;">
-                        Obtener Premium Duo
-                    </button>
-                    <p style="font-size: 12px; color: #666; margin-top: 15px;">Para parejas que viven en el mismo
-                        domicilio. Se aplican Términos.</p>
-                </div>
+    <main class="hero">
+        <div class="hero-content">
+            <div class="cta-buttons">
+                @if(Auth::check())
+                    <a href="{{ route('home') }}" class="cta-button">Home</a>
+                @else
+                    <a href="{{ route('login') }}" class="cta-button">Ingresar</a>
+                @endif
+                {{-- <a href="{{ route('register') }}" class="cta-button">Registrarse</a> --}}
             </div>
         </div>
-    </section>
-    <footer>
-        <p>&copy; 2025 InsumoPredict. Todos los derechos reservados.</p>
-    </footer>
+    </main>
+
+    <div class="social-links">
+        <a href="https://www.tiktok.com/@restaurant.las.brazas?_t=ZM-8vFpHU4jidz&_r=1" target="_blank" class="social-link" title="Síguenos en TikTok">
+            <i class="fab fa-tiktok"></i>
+            <span>Síguenos en TikTok</span>
+        </a>
+        <a href="https://wa.me/59176396861" target="_blank" class="social-link" title="Pedidos y Reservas">
+            <i class="fab fa-whatsapp"></i>
+            <span>Pedidos y Reservas: 76396861</span>
+        </a>
+    </div>
 </body>
 
 </html>

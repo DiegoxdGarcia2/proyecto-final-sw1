@@ -59,12 +59,12 @@
                     </div>
 
                     <div class="input-style-1">
-                        <label>¿A cuanto vendiste cada plato?</label>
-                        <input type="number" name="precio" placeholder="Ingresa el precio por unidad" min="0"
+                        <label>¿A cuanto vendiste cada plato? (Bs.)</label>
+                        <input type="number" name="precio" placeholder="Ingresa el precio por unidad en Bs." min="0"
                             step="0.01" oninput="this.value = this.value.replace(/[^0-9.]/g, '');">
                     </div>
                     <div class="input-style-1">
-                        <label>Precio total</label>
+                        <label>Precio total (Bs.)</label>
                         <input type="number" name="total" value="">
                     </div>
                     <div class="input-style-1">

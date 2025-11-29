@@ -6,7 +6,7 @@
         <div class="row align-items-center">
             <div class="col-md-6">
                 <div class="title mb-30">
-                    <h2>{{ __('My profile') }}</h2>
+                    <h2>Mi perfil</h2>
                 </div>
             </div>
             <!-- end col -->
@@ -37,11 +37,11 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="input-style-1">
-                                <label for="name">{{ __('Name') }}</label>
-                                <input type="text" @error('name') class="form-control is-invalid" @enderror name="name"
-                                       id="name" placeholder="{{ __('Name') }}"
-                                       value="{{ old('name', auth()->user()->name) }}" required>
-                                @error('name')
+                                <label for="nombre">Nombre</label>
+                                <input type="text" @error('nombre') class="form-control is-invalid" @enderror name="nombre"
+                                       id="nombre" placeholder="Nombre"
+                                       value="{{ old('nombre', auth()->user()->nombre) }}" required>
+                                @error('nombre')
                                 <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
@@ -90,7 +90,7 @@
                         <div class="col-12">
                             <div class="button-group d-flex justify-content-center flex-wrap">
                                 <button type="submit" class="main-btn primary-btn btn-hover w-100 text-center">
-                                    {{ __('Submit') }}
+                                    Guardar
                                 </button>
                             </div>
                         </div>

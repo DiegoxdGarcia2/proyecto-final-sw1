@@ -6,11 +6,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -18,7 +19,9 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
-        'name',
+        'nombre',
+        'apellido_paterno',
+        'apellido_materno',
         'email',
         'password',
     ];
@@ -38,16 +41,42 @@ class User extends Authenticatable
      *
      * @return array<string, string>
      */
-    protected function casts(): array
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+        'password' => 'hashed',
+    ];
+
+    /*public function rol()
     {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-        ];
+        return $this->belongsTo(Role::class, 'rol_id');
     }
 
-    public function restaurante()
+    public function hasRole($roleName)
     {
-        return $this->hasOne(Restaurante::class);
+        return optional($this->rol)->nombre === $roleName;
+    }*/
+
+    /**
+     * Verifica si el usuario es administrador
+     */
+    /*public function isAdmin(): bool
+    {
+        return $this->role === 'administrador';
     }
+*/
+    /**
+     * Verifica si el usuario es cocinero
+     */
+  /*  public function isCocinero(): bool
+    {
+        return $this->role === 'cocinero';
+    }*/
+
+    /**
+     * Verifica si el usuario es cajero
+     */
+ /*   public function isCajero(): bool
+    {
+        return $this->role === 'cajero';
+    }*/
 }

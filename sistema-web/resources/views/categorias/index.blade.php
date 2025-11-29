@@ -29,6 +29,9 @@
                         <table class="table">
                             <thead>
                                 <tr>
+                                    <th>
+                                        <h6>ID</h6>
+                                    </th>
                                     <th class="lead-info">
                                         <h6>Nombre</h6>
                                     </th>
@@ -45,6 +48,9 @@
                                 @forelse ($categorias as $categoria)
                                     <tr>
                                         <td class="min-width">
+                                            <p>{{ $categoria->id }}</p>
+                                        </td>
+                                        <td class="min-width">
                                             <div class="lead">
                                                 <div class="lead-text">
                                                     <p>{{ $categoria->nombre }}</p>
@@ -55,25 +61,29 @@
                                             <p>{{ $categoria->descripcion }}</p>
                                         </td>
                                         <td>
-                                            <div class="action">
+                                            <div class="action d-flex" style="gap: 10px;">
+                                                <a href="{{ route('categorias.edit', $categoria->id) }}" 
+                                                   class="main-btn dark-btn btn-hover"
+                                                   style="background-color: #5A2828; border-color: #5A2828; font-size: 16px; padding: 8px 16px;">
+                                                    EDITAR
+                                                </a>
                                                 <form action="{{ route('categorias.destroy', $categoria->id) }}"
                                                     method="POST">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="submit" class="text-danger">
-                                                        <i class="lni lni-trash-can"></i>
+                                                    <button type="submit" 
+                                                            class="main-btn dark-btn btn-hover"
+                                                            style="background-color: #5A2828; border-color: #5A2828; font-size: 16px; padding: 8px 16px;"
+                                                            onclick="return confirm('¿Estás seguro de que deseas eliminar esta categoría?')">
+                                                        ELIMINAR
                                                     </button>
                                                 </form>
-                                                <a href="{{ route('categorias.edit', $categoria->id) }}"
-                                                    class="text-primary">
-                                                    <i class="lni lni-pencil"></i>
-                                                </a>
                                             </div>
                                         </td>
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="3" class="text-center">No existen categorias</td>
+                                        <td colspan="4" class="text-center">No existen categorias</td>
                                     </tr>
                                 @endforelse
                                 <!-- end table row -->

@@ -77,16 +77,28 @@
                                             <p>{{ $venta->cantidad }} Porciones</p>
                                         </td>
                                         <td class="min-width">
-                                            <p>{{ $venta->precio }} $.</p>
+                                            <p>{{ $venta->precio }} Bs.</p>
                                         </td>
                                         <td class="min-width">
-                                            <p>{{ $venta->total }} $.</p>
+                                            <p>{{ $venta->total }} Bs.</p>
                                         </td>
                                         <td>
-                                            <div class="action">
-                                                <a href="{{ route('ventas.show', $venta->id) }}" class="text-success">
-                                                    <i class="lni lni-eye"></i>
+                                            <div class="action d-flex gap-2">
+                                                <a href="{{ route('ventas.edit', $venta->id) }}" 
+                                                   class="main-btn dark-btn btn-hover"
+                                                   style="background-color: #5A2828; border-color: #5A2828; font-size: 14px; padding: 5px 15px; border-radius: 6px;">
+                                                    EDITAR
                                                 </a>
+                                                <form action="{{ route('ventas.destroy', $venta->id) }}" method="POST" class="d-inline">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" 
+                                                            class="main-btn dark-btn btn-hover"
+                                                            style="background-color: #5A2828; border-color: #5A2828; font-size: 14px; padding: 5px 15px; border-radius: 6px;"
+                                                            onclick="return confirm('¿Estás seguro de que deseas eliminar esta venta?')">
+                                                        ELIMINAR
+                                                    </button>
+                                                </form>
                                             </div>
                                         </td>
                                     </tr>

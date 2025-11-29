@@ -9,14 +9,8 @@ class Categoria extends Model
     //
     protected $fillable = [
         'nombre',
-        'descripcion',
-        'restaurante_id',
+        'descripcion'
     ];
-
-    public function restaurante()
-    {
-        return $this->belongsTo(Restaurante::class);
-    }
 
     public function insumos()
     {

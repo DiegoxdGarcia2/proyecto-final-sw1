@@ -1,61 +1,175 @@
 @extends('layouts.guest')
 
 @section('content')
-    <div class="col-lg-6">
-        <div class="auth-cover-wrapper bg-primary-100">
-            <div class="auth-cover">
-                <div class="title text-center">
-                    <h1 class="text-primary mb-10">{{ __('Reset Password') }}</h1>
-                </div>
-                <div class="cover-image">
-                    <img src="{{ asset('images/auth/signin-image.svg') }}" alt="">
-                </div>
-                <div class="shape-image">
-                    <img src="{{ asset('images/auth/shape.svg') }}" alt="">
-                </div>
-            </div>
+<div class="login-container">
+    <div class="col-lg-6 logo-section">
+        <div class="auth-cover-wrapper" style="background: url('{{ asset('images/logo01.jpg') }}') no-repeat center center; background-size: contain; min-height: 100vh;">
         </div>
     </div>
-    <!-- end col -->
-    <div class="col-lg-6">
-        <div class="signin-wrapper">
-            <div class="form-wrapper">
-                <h6 class="mb-15">{{ __('Reset Password') }}</h6>
+    <div class="col-lg-6 form-section">
+        <div class="form-container">
+            <h2 class="reset-title">Restablecer<br>Contraseña</h2>
 
                 @if (session('status'))
                     <div class="alert alert-success" role="alert">
-                        {{ session('status') }}
+                    Se ha enviado el enlace de recuperación a tu correo electrónico.
                     </div>
                 @endif
 
-                <form action="{{ route('password.email') }}" method="POST">
+            <form method="POST" action="{{ route('password.email') }}">
                     @csrf
+                <div class="input-group">
+                    <input id="email" 
+                           type="email" 
+                           class="form-control @error('email') is-invalid @enderror" 
+                           name="email" 
+                           value="{{ old('email') }}" 
+                           required 
+                           autocomplete="email" 
+                           autofocus
+                           placeholder="Correo Electrónico">
 
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="input-style-1">
-                                <label for="email">{{ __('Email') }}</label>
-                                <input @error('email') class="form-control is-invalid" @enderror type="email" name="email" id="email" placeholder="{{ __('Email') }}" required autocomplete="email" autofocus>
                                 @error('email')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
+                        <span class="error-message">
+                            No pudimos encontrar un usuario con esa dirección de correo electrónico.
                                     </span>
                                 @enderror
                             </div>
-                        </div>
-                    <!-- end col -->
-                        <div class="col-12">
-                            <div class="button-group d-flex justify-content-center flex-wrap">
-                                <button type="submit" class="main-btn primary-btn btn-hover w-100 text-center">
-                                    {{ __('Send Password Reset Link') }}
+
+                <button type="submit" class="reset-button">
+                    ENVIAR ENLACE DE RECUPERACIÓN
                                 </button>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- end row -->
                 </form>
             </div>
         </div>
     </div>
-    <!-- end col -->
+
+<style>
+    .login-container {
+        display: flex;
+        min-height: 100vh;
+        background: #4a1c1c;
+    }
+
+    .logo-section {
+        position: relative;
+        background-color: #4a1c1c;
+    }
+
+    .form-section {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem;
+        background: #4a1c1c;
+    }
+
+    .form-container {
+        width: 100%;
+        max-width: 450px;
+        padding: 2rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .reset-title {
+        color: #4a1c1c;
+        font-size: 2rem;
+        font-weight: 600;
+        margin-bottom: 2rem;
+        text-align: center;
+        line-height: 1.2;
+    }
+
+    .input-group {
+        width: 100%;
+        margin-bottom: 1.25rem;
+    }
+
+    .input-group input {
+        width: 100%;
+        padding: 0.875rem 1rem;
+        border: 1px solid #E5E7EB;
+        border-radius: 8px;
+        font-size: 1rem;
+        transition: all 0.2s ease;
+        background: white;
+        color: #4a1c1c;
+    }
+
+    .input-group input:focus {
+        outline: none;
+        border-color: #ff9933;
+        box-shadow: 0 0 0 2px rgba(255, 153, 51, 0.2);
+    }
+
+    .input-group input::placeholder {
+        color: #6B7280;
+    }
+
+    .reset-button {
+        width: 100%;
+        padding: 0.875rem;
+        background: linear-gradient(45deg, #ff6633 0%, #ff9933 100%);
+        border: none;
+        border-radius: 8px;
+        color: white;
+        font-size: 0.95rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-transform: uppercase;
+        margin-top: 0.5rem;
+    }
+
+    .reset-button:hover {
+        background: linear-gradient(45deg, #ff5522 0%, #ff8822 100%);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(255, 102, 51, 0.2);
+    }
+
+    .error-message {
+        color: #dc2626;
+        font-size: 0.875rem;
+        margin-top: 0.5rem;
+        display: block;
+    }
+
+    .alert {
+        padding: 1rem;
+        margin-bottom: 1rem;
+        border-radius: 8px;
+        font-size: 0.9rem;
+    }
+
+    .alert-success {
+        background-color: #f0fdf4;
+        color: #16a34a;
+        border: 1px solid #dcfce7;
+    }
+
+    @media (max-width: 768px) {
+        .login-container {
+            flex-direction: column;
+        }
+
+        .logo-section {
+            min-height: 30vh;
+        }
+
+        .form-container {
+            padding: 1.5rem;
+            margin: 1rem;
+        }
+
+        .reset-title {
+            font-size: 1.75rem;
+            margin-bottom: 1.5rem;
+        }
+    }
+</style>
 @endsection

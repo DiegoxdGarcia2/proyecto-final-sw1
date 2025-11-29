@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Receta;
+use App\Models\Insumo;
 use Illuminate\Http\Request;
 
 class RecetaController extends Controller
@@ -12,8 +13,7 @@ class RecetaController extends Controller
      */
     public function index()
     {
-        //obtener todas las recetas del restaurante
-        $recetas = auth()->user()->restaurante->recetas;
+        $recetas = Receta::all();
         return view('recetas.index', compact('recetas'));
     }
 
@@ -22,8 +22,7 @@ class RecetaController extends Controller
      */
     public function create()
     {
-        //obtener los isumos del restaurante
-        $insumos = auth()->user()->restaurante->insumos;
+        $insumos = Insumo::all();
         return view('recetas.create', compact('insumos'));
     }
 
@@ -32,7 +31,6 @@ class RecetaController extends Controller
      */
     public function store(Request $request)
     {
-        //
         $request->validate([
             'nombre' => 'required|string|max:255',
             'indicaciones' => 'required|string',
@@ -42,15 +40,12 @@ class RecetaController extends Controller
             'insumos.*.cantidad' => 'required|numeric|min:0',
         ]);
 
-        // crear la receta
         $receta = Receta::create([
             'nombre' => $request->nombre,
             'indicaciones' => $request->indicaciones,
             'tiempo_preparacion' => $request->tiempo_preparacion,
-            'restaurante_id' => auth()->user()->restaurante->id,
         ]);
 
-        // guardar los insumos de la receta
         foreach ($request->insumos as $insumo) {
             $receta->insumos()->attach($insumo['id'], ['cantidad' => $insumo['cantidad']]);
         }
@@ -63,8 +58,6 @@ class RecetaController extends Controller
      */
     public function show(Receta $receta)
     {
-        //
-
         return view('recetas.show', compact('receta'));
     }
 
@@ -73,7 +66,8 @@ class RecetaController extends Controller
      */
     public function edit(Receta $receta)
     {
-        //
+        $insumos = Insumo::all();
+        return view('recetas.edit', compact('receta', 'insumos'));
     }
 
     /**
@@ -81,7 +75,30 @@ class RecetaController extends Controller
      */
     public function update(Request $request, Receta $receta)
     {
-        //
+        $request->validate([
+            'nombre' => 'required|string|max:255',
+            'indicaciones' => 'required|string',
+            'tiempo_preparacion' => 'required|integer|min:1',
+            'insumos' => 'required|array|min:1',
+            'insumos.*.id' => 'required|exists:insumos,id',
+            'insumos.*.cantidad' => 'required|numeric|min:0',
+        ]);
+
+        $receta->update([
+            'nombre' => $request->nombre,
+            'indicaciones' => $request->indicaciones,
+            'tiempo_preparacion' => $request->tiempo_preparacion,
+        ]);
+
+        // Formatear los datos para sync
+        $insumosSync = collect($request->insumos)->mapWithKeys(function ($insumo) {
+            return [$insumo['id'] => ['cantidad' => $insumo['cantidad']]];
+        })->all();
+
+        // Actualizar los insumos usando sync
+        $receta->insumos()->sync($insumosSync);
+
+        return redirect()->route('recetas.index')->with('success', 'Receta actualizada correctamente');
     }
 
     /**
@@ -89,6 +106,16 @@ class RecetaController extends Controller
      */
     public function destroy(Receta $receta)
     {
-        //
+        // Eliminar relaciones en la tabla pivote
+        $receta->insumos()->detach();
+        // Eliminar ventas relacionadas y sus movimientos
+        foreach ($receta->ventas as $venta) {
+            foreach ($venta->movimientos_inventario as $movimiento) {
+                $movimiento->delete();
+            }
+            $venta->delete();
+        }
+        $receta->delete();
+        return redirect()->route('recetas.index')->with('success', 'Receta eliminada correctamente');
     }
 }

@@ -11,7 +11,7 @@ class UnidadMedidaController extends Controller
     public function index()
     {
         $unidades = UnidadMedida::all();
-        return view('unidades', compact('unidades'));
+        return view('unidades.index', compact('unidades'));
     }
 
     public function store(Request $request)
@@ -78,6 +78,13 @@ class UnidadMedidaController extends Controller
 
             return redirect()->route('unidades.index')
                 ->with('success', 'Unidad de medida eliminada correctamente');
+        } catch (\Illuminate\Database\QueryException $e) {
+            if ($e->getCode() == '23000') { // Violación de clave foránea
+                return redirect()->route('unidades.index')
+                    ->with('error', 'No se puede eliminar la unidad de medida porque está en uso.');
+            }
+            return redirect()->route('unidades.index')
+                ->with('error', 'Error al eliminar la unidad de medida');
         } catch (\Exception $e) {
             return redirect()->route('unidades.index')
                 ->with('error', 'Error al eliminar la unidad de medida');

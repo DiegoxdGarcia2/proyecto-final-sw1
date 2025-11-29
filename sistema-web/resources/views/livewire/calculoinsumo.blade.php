@@ -15,11 +15,11 @@ new class extends Component {
 
     public $insumos = [];
 
-    public $resultado = '> Resultado: ';
+    public $resultado = '> Resultado:.....';
 
     public function mount()
     {
-        $this->recetas = auth()->user()->restaurante->recetas;
+        $this->recetas = \App\Models\Receta::all();
     }
 
     public function increment()

@@ -29,6 +29,9 @@
                         <table class="table">
                             <thead>
                                 <tr>
+                                    <th>
+                                        <h6>ID</h6>
+                                    </th>
                                     <th class="lead-info">
                                         <h6>Nombre</h6>
                                     </th>
@@ -54,14 +57,10 @@
                                 @forelse ($insumos as $insumo)
                                     <tr>
                                         <td class="min-width">
-                                            <div class="lead">
-                                                <div class="lead-image">
-                                                    <img src="{{ $insumo->imagen ? asset('storage/' . $insumo->imagen) : asset('images/cereales.jpg') }}" alt="">
-                                                </div>
-                                                <div class="lead-text">
-                                                    <p>{{$insumo->nombre}}</p>
-                                                </div>
-                                            </div>
+                                            <p>{{ $insumo->id }}</p>
+                                        </td>
+                                        <td class="min-width">
+                                            <p>{{$insumo->nombre}}</p>
                                         </td>
                                         <td class="min-width">
                                             <p>{{ $insumo->descripcion }}</p>
@@ -73,22 +72,25 @@
                                             <p>{{ $insumo->categoria->nombre }}</p>
                                         </td>
                                         <td class="min-width">
-                                            <p>{{ $insumo->getCantidadTotal() }} {{$insumo->unidad_medida->abreviatura}}</p>
+                                            <p>{{ max(0, $insumo->getCantidadTotal()) }} {{$insumo->unidad_medida->abreviatura}}</p>
                                         </td>
                                         <td>
-                                            <div class="action">
-                                                <form action="{{ route('insumos.destroy', $insumo->id) }}"
-                                                    method="POST">
+                                            <div class="action d-flex gap-2">
+                                                <a href="{{ route('insumos.edit', $insumo->id) }}" 
+                                                   class="main-btn dark-btn btn-hover"
+                                                   style="background-color: #5A2828; border-color: #5A2828; font-size: 14px; padding: 5px 15px; border-radius: 6px;">
+                                                    EDITAR
+                                                </a>
+                                                <form action="{{ route('insumos.destroy', $insumo->id) }}" method="POST" class="d-inline">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="submit" class="text-danger">
-                                                        <i class="lni lni-trash-can"></i>
+                                                    <button type="submit" 
+                                                            class="main-btn dark-btn btn-hover"
+                                                            style="background-color: #5A2828; border-color: #5A2828; font-size: 14px; padding: 5px 15px; border-radius: 6px;"
+                                                            onclick="return confirm('¿Estás seguro de que deseas eliminar este insumo?')">
+                                                        ELIMINAR
                                                     </button>
                                                 </form>
-                                                <a href="{{ route('insumos.edit', $insumo->id) }}"
-                                                    class="text-primary">
-                                                    <i class="lni lni-pencil"></i>
-                                                </a>
                                             </div>
                                         </td>
                                     </tr>

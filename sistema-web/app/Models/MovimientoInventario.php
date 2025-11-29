@@ -21,10 +21,6 @@ class MovimientoInventario extends Model
         return $this->belongsTo(Insumo::class);
     }
 
-    public function restaurante()
-    {
-        return $this->belongsTo(Restaurante::class);
-    }
     public function venta()
     {
         return $this->belongsTo(Venta::class);

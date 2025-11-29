@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Venta;
-use Illuminate\Http\Request;
 use App\Models\Receta;
+use Illuminate\Http\Request;
 use App\Models\MovimientoInventario;
 
 class VentaController extends Controller
@@ -14,8 +14,7 @@ class VentaController extends Controller
      */
     public function index()
     {
-        //obtener todas las ventas del restaurante
-        $ventas = auth()->user()->restaurante->ventas;
+        $ventas = Venta::all();
         return view('ventas.index', compact('ventas'));
     }
 
@@ -24,9 +23,7 @@ class VentaController extends Controller
      */
     public function create()
     {
-        //
-        //obtener todas las recetas del restaurante
-        $recetas = auth()->user()->restaurante->recetas;
+        $recetas = Receta::all();
         return view('ventas.create', compact('recetas'));
     }
 
@@ -35,12 +32,12 @@ class VentaController extends Controller
      */
     public function store(Request $request)
     {
-        //
         $request->validate([
             'cantidad' => 'required|numeric',
             'precio' => 'required|numeric',
             'total' => 'required|numeric',
             'receta_id' => 'required',
+            'fecha' => 'required|date',
         ]);
 
         $venta = new Venta();
@@ -48,23 +45,19 @@ class VentaController extends Controller
         $venta->precio = $request->precio;
         $venta->total = $request->total;
         $venta->receta_id = $request->receta_id;
-        
+        $venta->created_at = $request->fecha;
         $venta->save();
 
-        // Se debe calcular los movimientos de salida del inventario segundo a las recetas que tiene y las cantidades de recetas que se vendio
-        //obtener la receta
         $receta = Receta::find($request->receta_id);
-
         $insumosGastados = $receta->insumosGastados($request->cantidad);
 
-        //crear los movimientos de inventario
         foreach ($insumosGastados as $insumo_id => $cantidad) {
             $movimiento = new MovimientoInventario();
             $movimiento->tipo = 'salida';
             $movimiento->cantidad = $cantidad;
             $movimiento->insumo_id = $insumo_id;
             $movimiento->motivo = 'Venta de ' . $receta->nombre;
-            $movimiento->restaurante_id = auth()->user()->restaurante->id;
+            $movimiento->venta_id = $venta->id;
             $movimiento->save();
         }
 
@@ -76,7 +69,10 @@ class VentaController extends Controller
      */
     public function show(Venta $venta)
     {
-        //
+        if (!auth()->user() || !auth()->user()->restaurante) {
+            return redirect()->route('home')->with('error', 'No tienes un restaurante asociado.');
+        }
+
         return view('ventas.show', compact('venta'));
     }
 
@@ -85,7 +81,8 @@ class VentaController extends Controller
      */
     public function edit(Venta $venta)
     {
-        //
+        $recetas = Receta::all();
+        return view('ventas.edit', compact('venta', 'recetas'));
     }
 
     /**
@@ -93,7 +90,21 @@ class VentaController extends Controller
      */
     public function update(Request $request, Venta $venta)
     {
-        //
+        $request->validate([
+            'cantidad' => 'required|numeric',
+            'precio' => 'required|numeric',
+            'total' => 'required|numeric',
+            'receta_id' => 'required|exists:recetas,id',
+            'fecha' => 'required|date',
+        ]);
+
+        $venta->cantidad = $request->cantidad;
+        $venta->precio = $request->precio;
+        $venta->total = $request->total;
+        $venta->receta_id = $request->receta_id;
+        $venta->created_at = $request->fecha;
+        $venta->save();
+        return redirect()->route('ventas.index')->with('success', 'Venta actualizada correctamente');
     }
 
     /**
@@ -101,6 +112,11 @@ class VentaController extends Controller
      */
     public function destroy(Venta $venta)
     {
-        //
+        // Eliminar movimientos relacionados
+        foreach ($venta->movimientos_inventario as $movimiento) {
+            $movimiento->delete();
+        }
+        $venta->delete();
+        return redirect()->route('ventas.index')->with('success', 'Venta eliminada correctamente');
     }
 }

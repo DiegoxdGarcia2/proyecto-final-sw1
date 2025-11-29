@@ -7,13 +7,17 @@ use Illuminate\Http\Request;
 
 class CategoriaController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        // obtener todas las categorias del restaurante
-        $categorias = auth()->user()->restaurante->categorias ?? [];
+        $categorias = Categoria::all();
         return view('categorias.index', compact('categorias'));
     }
 
@@ -22,7 +26,6 @@ class CategoriaController extends Controller
      */
     public function create()
     {
-        //
         return view('categorias.create');
     }
 
@@ -31,19 +34,22 @@ class CategoriaController extends Controller
      */
     public function store(Request $request)
     {
-        //
         $request->validate([
             'nombre' => 'required|string|max:50',
             'descripcion' => 'nullable|string|max:100'
         ]);
 
-        Categoria::create([
-            'nombre' => $request->nombre,
-            'descripcion' => $request->descripcion,
-            'restaurante_id' => auth()->user()->restaurante->id
-        ]);
+        try {
+            Categoria::create([
+                'nombre' => $request->nombre,
+                'descripcion' => $request->descripcion
+            ]);
 
-        return redirect()->route('categorias.index')->with('success', 'Categoria creada.');
+            return redirect()->route('categorias.index')
+                ->with('success', 'Categoría creada exitosamente.');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Error al crear la categoría. Por favor, intenta nuevamente.');
+        }
     }
 
     /**
@@ -51,7 +57,7 @@ class CategoriaController extends Controller
      */
     public function show(Categoria $categoria)
     {
-        //
+        return view('categorias.show', compact('categoria'));
     }
 
     /**
@@ -59,7 +65,6 @@ class CategoriaController extends Controller
      */
     public function edit(Categoria $categoria)
     {
-        //
         return view('categorias.edit', compact('categoria'));
     }
 
@@ -68,18 +73,22 @@ class CategoriaController extends Controller
      */
     public function update(Request $request, Categoria $categoria)
     {
-        //
         $request->validate([
             'nombre' => 'required|string|max:50',
             'descripcion' => 'nullable|string|max:100'
         ]);
 
-        $categoria->update([
-            'nombre' => $request->nombre,
-            'descripcion' => $request->descripcion
-        ]);
+        try {
+            $categoria->update([
+                'nombre' => $request->nombre,
+                'descripcion' => $request->descripcion
+            ]);
 
-        return redirect()->route('categorias.index')->with('success', 'Categoria actualizada.');
+            return redirect()->route('categorias.index')
+                ->with('success', 'Categoría actualizada exitosamente.');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Error al actualizar la categoría. Por favor, intenta nuevamente.');
+        }
     }
 
     /**
@@ -87,9 +96,12 @@ class CategoriaController extends Controller
      */
     public function destroy(Categoria $categoria)
     {
-        //
-        $categoria->delete();
-
-        return redirect()->route('categorias.index')->with('success', 'Categoria eliminada.');
+        try {
+            $categoria->delete();
+            return redirect()->route('categorias.index')
+                ->with('success', 'Categoría eliminada exitosamente.');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Error al eliminar la categoría. Por favor, intenta nuevamente.');
+        }
     }
 }

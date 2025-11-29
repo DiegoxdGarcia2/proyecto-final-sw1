@@ -8,6 +8,7 @@
         </a>
     </li>
 
+    @hasanyrole('admin|director')
     <li class="nav-item @if (request()->routeIs('predicciones.index')) active @endif">
         <a href="{{ route('predicciones.index') }}">
             <span class="icon">
@@ -15,8 +16,10 @@
             </span>
             <span class="text">{{ __('Predicciones') }}</span>
         </a>
-    </li>
+    </li>    
+    @endhasanyrole
 
+    @hasanyrole('admin|cajero|director')
     <li class="nav-item @if (request()->routeIs('ventas.index') || request()->routeIs('ventas.create') || request()->routeIs('ventas.edit')) active @endif">
         <a href="{{ route('ventas.index') }}">
             <span class="icon">
@@ -25,7 +28,9 @@
             <span class="text">{{ __('Ventas') }}</span>
         </a>
     </li>
+    @endhasanyrole
 
+    @hasanyrole('admin|director|cocinero|ayudante')
     <li class="nav-item @if (request()->routeIs('movimientos.index') ||
             request()->routeIs('movimientos.create') ||
             request()->routeIs('movimientos.edit')) active @endif">
@@ -36,7 +41,9 @@
             <span class="text">{{ __('Movimientos') }}</span>
         </a>
     </li>
+    @endhasanyrole
 
+    @hasanyrole('admin|cocinero|director|ayudante')
     <li class="nav-item @if (request()->routeIs('recetas.index') ||
             request()->routeIs('recetas.create') ||
             request()->routeIs('recetas.edit') ||
@@ -48,7 +55,9 @@
             <span class="text">{{ __('Recetas') }}</span>
         </a>
     </li>
+    @endhasanyrole
 
+    @hasanyrole('admin|cocinero|director|ayudante')
     <li class="nav-item @if (request()->routeIs('insumos.index') || request()->routeIs('insumos.create') || request()->routeIs('insumos.edit')) active @endif">
         <a href="{{ route('insumos.index') }}">
             <span class="icon">
@@ -57,7 +66,9 @@
             <span class="text">{{ __('Insumos') }}</span>
         </a>
     </li>
+    @endhasanyrole
 
+    @hasanyrole('admin|cocinero|director')
     <li class="nav-item @if (request()->routeIs('proveedores.index') ||
             request()->routeIs('proveedores.create') ||
             request()->routeIs('proveedores.edit')) active @endif">
@@ -68,7 +79,9 @@
             <span class="text">{{ __('Proveedores') }}</span>
         </a>
     </li>
+    @endhasanyrole
 
+    @hasanyrole('admin|cocinero|director')
     <li class="nav-item @if (request()->routeIs('categorias.index') ||
             request()->routeIs('categorias.create') ||
             request()->routeIs('categorias.edit')) active @endif">
@@ -79,35 +92,38 @@
             <span class="text">{{ __('Categorías') }}</span>
         </a>
     </li>
+    @endhasanyrole
 
-
-    <li class="nav-item @if (request()->routeIs('reportes.index')) active @endif">
-        <a href="{{ route('reportes.index') }}">
-            <span class="icon">
-                <i class="lni lni-bar-chart"></i>
-            </span>
-            <span class="text">{{ __('Reportes') }}</span>
-        </a>
-    </li>
-
+    @hasanyrole('admin|cocinero|director')
     <li class="nav-item @if (request()->routeIs('unidades.index')) active @endif">
         <a href="{{ route('unidades.index') }}">
             <span class="icon">
-                <i class="lni lni-cogs"></i>
+                <i class="lni lni-ruler-alt"></i>
             </span>
             <span class="text">{{ __('Unidades de medida') }}</span>
         </a>
     </li>
+    @endhasanyrole
 
-
-    <li class="nav-item @if (request()->routeIs('restaurante.show')) active @endif">
-        <a href="{{ route('restaurante.show') }}">
+    @hasanyrole('admin|cajero|director')
+    <li class="nav-item @if (request()->routeIs('reportes.index')) active @endif">
+        <a href="{{ route('reportes.index') }}">
             <span class="icon">
-                <i class="lni lni-restaurant"></i>
+                <i class="lni lni-stats-up"></i>
             </span>
-            <span class="text">{{ __('Mi Restaurante') }}</span>
+            <span class="text">{{ __('Reportes') }}</span>
         </a>
     </li>
+    @endhasanyrole
 
-
+    @hasanyrole('admin|director')
+    <li class="nav-item @if (request()->routeIs('users.index')) active @endif">
+        <a href="{{ route('users.index') }}">
+            <span class="icon">
+                <i class="lni lni-user"></i>
+            </span>
+            <span class="text">{{ __('Usuarios') }}</span>
+        </a>
+    </li>
+    @endhasanyrole
 </ul>

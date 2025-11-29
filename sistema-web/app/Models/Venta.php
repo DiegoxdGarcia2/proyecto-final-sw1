@@ -8,7 +8,7 @@ class Venta extends Model
 {
     //
     protected $table = 'ventas';
-    protected $fillable = ['cantidad', 'precio', 'total', 'receta_id'];
+    protected $fillable = ['cantidad', 'precio', 'total', 'receta_id', 'created_at'];
 
     public function receta()
     {
@@ -17,10 +17,5 @@ class Venta extends Model
     public function movimientos_inventario()
     {
         return $this->hasMany(MovimientoInventario::class);
-    }
-    
-    public function restaurante()
-    {
-        return $this->belongsTo(Restaurante::class);
     }
 }

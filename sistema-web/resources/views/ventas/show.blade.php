@@ -39,11 +39,11 @@
             </div>
             <div class="input-style-1">
                 <label>Precio por porción</label>
-                <input type="text" value="{{ $venta->precio }}" readonly>
+                <input type="text" value="{{ $venta->precio }} Bs." readonly>
             </div>
             <div class="input-style-1">
                 <label>Total</label>
-                <input type="text" value="{{ $venta->total }}" readonly>
+                <input type="text" value="{{ $venta->total }} Bs." readonly>
             </div>
 
             <div class="input-style-1">

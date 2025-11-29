@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Insumo;
-use Illuminate\Http\Request;
+use App\Models\Categoria;
 use App\Models\UnidadMedida;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class InsumoController extends Controller
 {
@@ -13,9 +15,7 @@ class InsumoController extends Controller
      */
     public function index()
     {
-        // Obtener los insumos del restaurante
-        $insumos = auth()->user()->restaurante->insumos;
-        
+        $insumos = Insumo::all();
         return view('insumos.index', compact('insumos'));
     }
 
@@ -24,9 +24,8 @@ class InsumoController extends Controller
      */
     public function create()
     {
-        $categorias = auth()->user()->restaurante->categorias;
+        $categorias = Categoria::all();
         $unidades = UnidadMedida::all();
-
         return view('insumos.create', compact('categorias', 'unidades'));
     }
 
@@ -35,12 +34,10 @@ class InsumoController extends Controller
      */
     public function store(Request $request)
     {
-        //
         $request->validate([
             'nombre' => 'required|string|max:50',
             'descripcion' => 'nullable|string|max:100',
-            'stock_minimo' => 'required|numeric',
-            'imagen' => 'required|mimes:jpg,bmp,png,jpeg|max:2048',
+            'stock_minimo' => 'required|numeric|min:0',
             'categoria_id' => 'required',
             'unidad_medida_id' => 'required',
         ]);
@@ -50,14 +47,8 @@ class InsumoController extends Controller
             'descripcion' => $request->descripcion,
             'stock_minimo' => $request->stock_minimo,
             'categoria_id' => $request->categoria_id,
-            'unidad_medida_id' => $request->unidad_medida_id,
-            'restaurante_id' => auth()->user()->restaurante->id
+            'unidad_medida_id' => $request->unidad_medida_id
         ]);
-
-        if ($request->hasFile('imagen')) {
-            $insumo->imagen = $request->file('imagen')->store('insumos', 'public');
-            $insumo->save();
-        }
 
         return redirect()->route('insumos.index')->with('success', 'Insumo creado.');
     }
@@ -75,7 +66,9 @@ class InsumoController extends Controller
      */
     public function edit(Insumo $insumo)
     {
-        //
+        $categorias = Categoria::all();
+        $unidades = UnidadMedida::all();
+        return view('insumos.edit', compact('insumo', 'categorias', 'unidades'));
     }
 
     /**
@@ -83,7 +76,19 @@ class InsumoController extends Controller
      */
     public function update(Request $request, Insumo $insumo)
     {
-        //
+        $request->validate([
+            'nombre' => 'required|string|max:50',
+            'descripcion' => 'nullable|string|max:100',
+            'stock_minimo' => 'required|numeric|min:0',
+            'categoria_id' => 'required|exists:categorias,id',
+            'unidad_medida_id' => 'required|exists:unidad_medidas,id',
+        ]);
+
+        $data = $request->only(['nombre', 'descripcion', 'stock_minimo', 'categoria_id', 'unidad_medida_id']);
+
+        $insumo->update($data);
+
+        return redirect()->route('insumos.index')->with('success', 'Insumo actualizado correctamente');
     }
 
     /**
@@ -91,6 +96,16 @@ class InsumoController extends Controller
      */
     public function destroy(Insumo $insumo)
     {
-        //
+        // Eliminar movimientos relacionados
+        foreach ($insumo->movimiento_inventarios as $movimiento) {
+            $movimiento->delete();
+        }
+        // Eliminar relaciones en recetas
+        $insumo->recetas()->detach();
+        if ($insumo->imagen) {
+            Storage::disk('public')->delete($insumo->imagen);
+        }
+        $insumo->delete();
+        return redirect()->route('insumos.index')->with('success', 'Insumo eliminado correctamente');
     }
 }

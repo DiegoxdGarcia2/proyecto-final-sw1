@@ -6,7 +6,7 @@
         <div class="row align-items-center">
             <div class="col-md-6">
                 <div class="title mb-30">
-                    <h2>{{ __('Mi Restaurante') }}</h2>
+                    <h2>{{ __('Proveedores') }}</h2>
                 </div>
             </div>
             <!-- end col -->
@@ -25,6 +25,9 @@
                     <tr>
                         <th>ID</th>
                         <th>Nombre</th>
+                        <th>Dirección</th>
+                        <th>Teléfono</th>
+                        <th>Email</th>
                         <th>Descripción</th>
                         <th>Acciones</th>
                     </tr>
@@ -34,6 +37,9 @@
                         <tr>
                             <td>{{ $proveedor->id }}</td>
                             <td>{{ $proveedor->nombre }}</td>
+                            <td>{{ $proveedor->direccion }}</td>
+                            <td>{{ $proveedor->telefono }}</td>
+                            <td>{{ $proveedor->email }}</td>
                             <td>{{ $proveedor->descripcion ?? 'Sin descripción' }}</td>
                             <td>
                                 <a href="{{ route('proveedores.edit', $proveedor->id) }}"

@@ -26,6 +26,21 @@
                 </div>
 
                 <div class="form-group">
+                    <label for="direccion">Dirección</label>
+                    <input type="text" name="direccion" class="form-control">
+                </div>
+
+                <div class="form-group">
+                    <label for="telefono">Teléfono</label>
+                    <input type="text" name="telefono" class="form-control">
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" name="email" class="form-control">
+                </div>
+
+                <div class="form-group">
                     <label for="descripcion">Descripción</label>
                     <textarea name="descripcion" class="form-control"></textarea>
                 </div>

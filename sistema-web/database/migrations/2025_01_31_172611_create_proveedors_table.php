@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('email', 50);
             $table->string('descripcion', 100)->nullable();
             // relacion con restaurantes
-            $table->foreignId('restaurante_id')->constrained('restaurantes');
+            // $table->foreignId('restaurante_id')->constrained('restaurantes');
             $table->timestamps();
         });
     }

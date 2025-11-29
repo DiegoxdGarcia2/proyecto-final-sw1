@@ -28,7 +28,6 @@ class InsumoSeeder extends Seeder
             'nombre' => 'Arroz',
             'descripcion' => 'Arroz blanco',
             'stock_minimo' => 10,
-            'restaurante_id' => 1,
             'unidad_medida_id' => 1,
             'categoria_id' => $categoria->id
         ]);
@@ -37,7 +36,6 @@ class InsumoSeeder extends Seeder
             'nombre' => 'Azucar',
             'descripcion' => 'Azucar blanca',
             'stock_minimo' => 10,
-            'restaurante_id' => 1,
             'unidad_medida_id' => 1,
             'categoria_id' => $categoria->id
         ]);
@@ -46,7 +44,6 @@ class InsumoSeeder extends Seeder
             'nombre' => 'Aceite',
             'descripcion' => 'Aceite de cocina',
             'stock_minimo' => 10,
-            'restaurante_id' => 1,
             'unidad_medida_id' => 1,
             'categoria_id' => $categoria->id
         ]);
@@ -55,7 +52,6 @@ class InsumoSeeder extends Seeder
             'nombre' => 'Sal',
             'descripcion' => 'Sal de mesa',
             'stock_minimo' => 10,
-            'restaurante_id' => 1,
             'unidad_medida_id' => 1,
             'categoria_id' => $categoria->id
         ]);
@@ -64,7 +60,6 @@ class InsumoSeeder extends Seeder
             'nombre' => 'Pimienta',
             'descripcion' => 'Pimienta negra',
             'stock_minimo' => 10,
-            'restaurante_id' => 1,
             'unidad_medida_id' => 1,
             'categoria_id' => $categoria->id
         ]);
@@ -73,7 +68,6 @@ class InsumoSeeder extends Seeder
             'nombre' => 'Cebolla',
             'descripcion' => 'Cebolla blanca',
             'stock_minimo' => 10,
-            'restaurante_id' => 1,
             'unidad_medida_id' => 1,
             'categoria_id' => $categoria->id
         ]);
@@ -82,7 +76,6 @@ class InsumoSeeder extends Seeder
             'nombre' => 'Ajo',
             'descripcion' => 'Ajo fresco',
             'stock_minimo' => 10,
-            'restaurante_id' => 1,
             'unidad_medida_id' => 1,
             'categoria_id' => $categoria->id
         ]);
@@ -91,7 +84,6 @@ class InsumoSeeder extends Seeder
             'nombre' => 'Papa',
             'descripcion' => 'Papa blanca',
             'stock_minimo' => 10,
-            'restaurante_id' => 1,
             'unidad_medida_id' => 1,
             'categoria_id' => $categoria->id
         ]);
@@ -100,7 +92,6 @@ class InsumoSeeder extends Seeder
             'nombre' => 'Tomate',
             'descripcion' => 'Tomate rojo',
             'stock_minimo' => 10,
-            'restaurante_id' => 1,
             'unidad_medida_id' => 1,
             'categoria_id' => $categoria->id
         ]);
@@ -109,7 +100,6 @@ class InsumoSeeder extends Seeder
             'nombre' => 'Lechuga',
             'descripcion' => 'Lechuga verde',
             'stock_minimo' => 10,
-            'restaurante_id' => 1,
             'unidad_medida_id' => 1,
             'categoria_id' => $categoria->id
         ]);

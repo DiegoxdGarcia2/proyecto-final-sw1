@@ -19,7 +19,14 @@ new class extends Component {
 
     public function mount()
     {
-        $this->recetas = auth()->user()->restaurante->recetas;
+        /*if (auth()->user() && auth()->user()->restaurante) {
+            $this->recetas = auth()->user()->restaurante->recetas;
+        } else {
+            $this->recetas = collect(); // Colección vacía si no hay restaurante
+        }*/
+
+        $this->recetas = Receta::all();
+        $this->insumos = Insumo::all();
     }
 
     public function obtenerInsumos()

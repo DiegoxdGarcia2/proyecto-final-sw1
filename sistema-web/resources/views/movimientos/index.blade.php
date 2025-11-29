@@ -1,128 +1,83 @@
 @extends('layouts.app')
 
 @section('content')
-    <!-- ========== title-wrapper start ========== -->
-    <div class="title-wrapper pt-30">
-        <div class="row align-items-center">
-            <div class="col-md-6">
-                <div class="title mb-30">
-                    <h2>{{ __('Movimientos de Insumos') }}</h2>
-                </div>
-            </div>
-            <!-- end col -->
-        </div>
-        <!-- end row -->
-    </div>
-    <!-- ========== title-wrapper end ========== -->
-
-    <div class="tables-wrapper">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="card-style mb-30">
-                    <h6 class="mb-10">Tabla de los movimientos del inventario</h6>
-                    <p>Para crear un nuevo movimiento debe especificar si es movimiento de entrada o salida.</p>
-                    <a href="{{ route('movimientos.create') }}" class="main-btn dark-btn btn-hover mt-2">
-                        <i class="lni lni-circle-plus"></i>
-                        Crear nuevo
-                    </a>
-                    <div class="table-wrapper table-responsive">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th>
-                                        <h6>Identificador</h6>
-                                    </th>
-                                    <th>
-                                        <h6>Tipo</h6>
-                                    </th>
-                                    <th>
-                                        <h6>Insumo</h6>
-                                    </th>
-                                    <th>
-                                        <h6>Cantidad</h6>
-                                    </th>
-                                    <th>
-                                        <h6>Motivo</h6>
-                                    </th>
-                                    <th>
-                                        <h6>Fecha</h6>
-                                    </th>
-                                    <th>
-                                        <h6>Acciones</h6>
-                                    </th>
-                                </tr>
-                                <!-- end table row-->
-                            </thead>
-                            <tbody>
-                                @forelse ($movimientos as $movimiento)
-                                    <tr>
-                                        <td class="min-width">
-                                            <div>
-                                                <p>{{ $movimiento->id }}</p>
-                                            </div>
-                                        </td>
-                                        <td class="min-width">
-                                            <p>
-                                                @if ($movimiento->tipo == 'entrada')
-                                                    <span class="badge bg-success">Entrada</span>
-                                                @else
-                                                    <span class="badge bg-danger">Salida</span>
-                                                @endif
-                                            </p>
-                                        </td>
-                                        <td class="min-width">
-                                            <div class="lead">
-                                                <div class="lead-image">
-                                                    <img src="{{ $movimiento->insumo->imagen ? asset('storage/' . $movimiento->insumo->imagen) : asset('images/cereales.jpg') }}"
-                                                        alt="">
-                                                </div>
-                                                <div class="lead-text">
-                                                    <p>{{ $movimiento->insumo->nombre }}</p>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td class="min-width">
-                                            <p>{{ $movimiento->cantidad }}
-                                                {{ $movimiento->insumo->unidad_medida->abreviatura }}</p>
-                                        </td>
-                                        <td class="min-width">
-                                            <p>{{ $movimiento->motivo }}</p>
-                                        </td>
-                                        <td class="min-width">
-                                            <p>{{ $movimiento->created_at->format('d/m/Y') }}</p>
-                                        </td>
-                                        <td>
-                                            <div class="action">
-                                                <form action="{{ route('movimientos.destroy', $movimiento->id) }}"
-                                                    method="POST">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="text-danger">
-                                                        <i class="lni lni-trash-can"></i>
-                                                    </button>
-                                                </form>
-                                                <a href="{{ route('movimientos.edit', $movimiento->id) }}"
-                                                    class="text-primary">
-                                                    <i class="lni lni-pencil"></i>
-                                                </a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                @empty
-                                    <tr>
-                                        <td colspan="3" class="text-center">No existen movimientos en el invetario</td>
-                                    </tr>
-                                @endforelse
-                                <!-- end table row -->
-                            </tbody>
-                        </table>
-                        <!-- end table -->
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <span id="card_title">
+                            {{ __('Movimientos de Inventario') }}
+                        </span>
+                        <div class="float-right">
+                            <a href="{{ route('movimientos.create') }}" 
+                               class="btn" 
+                               style="background-color: #5A2828; color: white; border-radius: 5px; padding: 8px 20px;">
+                                {{ __('CREAR NUEVO') }}
+                            </a>
+                        </div>
                     </div>
                 </div>
-                <!-- end card -->
+
+                @if ($message = Session::get('success'))
+                    <div class="alert alert-success">
+                        <p>{{ $message }}</p>
+                    </div>
+                @endif
+
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover">
+                            <thead class="thead">
+                                <tr>
+                                    <th>No</th>
+                                    <th>Insumo</th>
+                                    <th>Cantidad</th>
+                                    <th>Tipo</th>
+                                    <th>Motivo</th>
+                                    <th>Fecha</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($movimientos as $movimiento)
+                                    <tr>
+                                        <td>{{ ++$i }}</td>
+                                        <td>{{ $movimiento->insumo->nombre }}</td>
+                                        <td>{{ $movimiento->cantidad }}</td>
+                                        <td>
+                                            <span class="badge {{ $movimiento->tipo == 'entrada' ? 'bg-success' : 'bg-danger' }}">
+                                                {{ $movimiento->tipo }}
+                                            </span>
+                                        </td>
+                                        <td>{{ $movimiento->motivo }}</td>
+                                        <td>{{ $movimiento->created_at->format('d/m/Y') }}</td>
+                                        <td>
+                                            <form action="{{ route('movimientos.destroy',$movimiento->id) }}" method="POST" style="display: inline-flex; gap: 8px;">
+                                                <a class="btn" 
+                                                   href="{{ route('movimientos.edit',$movimiento->id) }}"
+                                                   style="background-color: #5A2828; color: white; border-radius: 5px; padding: 8px 20px;">
+                                                    EDITAR
+                                                </a>
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" 
+                                                        class="btn"
+                                                        style="background-color: #5A2828; color: white; border-radius: 5px; padding: 8px 20px;">
+                                                    ELIMINAR
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
-            <!-- end col -->
+            {!! $movimientos->links() !!}
         </div>
-        <!-- end row -->
     </div>
-@endsection
+</div>
+@endsection 

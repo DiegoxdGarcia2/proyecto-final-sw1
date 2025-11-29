@@ -52,13 +52,7 @@
                     <!-- stock_minimum -->
                     <div class="input-style-1">
                         <label>Stock mínimo</label>
-                        <input type="number" name="stock_minimo" placeholder="Integresa el stock mínimo">
-                    </div>
-
-                    <!-- imagen -->
-                    <div class="input-style-1">
-                        <label>Imagen</label>
-                        <input type="file" name="imagen" placeholder="Integresa la imagen">
+                        <input type="number" name="stock_minimo" placeholder="Integresa el stock mínimo" min="0">
                     </div>
 
                     <!-- categoria_id -->

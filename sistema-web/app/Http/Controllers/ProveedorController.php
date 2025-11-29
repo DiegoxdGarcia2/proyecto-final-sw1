@@ -31,9 +31,19 @@ class ProveedorController extends Controller
     {
         $request->validate([
             'nombre' => 'required|string|max:255',
+            'direccion' => 'required|string|max:255',
+            'telefono' => 'nullable|string|max:255',
+            'email' => 'nullable|email|max:255',
+            'descripcion' => 'nullable|string',
         ]);
 
-        Proveedor::create($request->all()); // Corregido: Ahora guarda en la BD
+        Proveedor::create([
+            'nombre' => $request->nombre,
+            'direccion' => $request->direccion,
+            'telefono' => $request->telefono,
+            'email' => $request->email,
+            'descripcion' => $request->descripcion,
+        ]);
 
         return redirect()->route('proveedores.index')->with('success', 'Proveedor creado.');
     }
@@ -54,10 +64,20 @@ class ProveedorController extends Controller
     {
         $request->validate([
             'nombre' => 'required|string|max:255',
+            'direccion' => 'required|string|max:255',
+            'telefono' => 'nullable|string|max:255',
+            'email' => 'nullable|email|max:255',
+            'descripcion' => 'nullable|string',
         ]);
 
-        $proveedor = Proveedor::findOrFail($id); // Corregido: Obtiene el proveedor
-        $proveedor->update($request->all());
+        $proveedor = Proveedor::findOrFail($id);
+        $proveedor->update([
+            'nombre' => $request->nombre,
+            'direccion' => $request->direccion,
+            'telefono' => $request->telefono,
+            'email' => $request->email,
+            'descripcion' => $request->descripcion,
+        ]);
 
         return redirect()->route('proveedores.index')->with('success', 'Proveedor actualizado.');
     }

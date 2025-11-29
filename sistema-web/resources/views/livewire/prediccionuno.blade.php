@@ -22,7 +22,8 @@ new class extends Component {
 
     public function mount()
     {
-        $this->recetas = auth()->user()->restaurante->recetas;
+        $this->recetas = \App\Models\Receta::all();
+        $this->insumos = \App\Models\Insumo::all();
     }
 
     public function obtenerInsumos()

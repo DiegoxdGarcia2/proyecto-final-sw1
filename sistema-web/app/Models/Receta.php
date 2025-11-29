@@ -13,16 +13,17 @@ class Receta extends Model
 
     protected $fillable = [
         'nombre',
+        'descripcion',
         'indicaciones',
         'tiempo_preparacion',
         'imagen',
-        'restaurante_id',
     ];
 
-    public function restaurante()
-    {
-        return $this->belongsTo(Restaurante::class);
-    }
+    // Eliminar la relación restaurante
+    // public function restaurante()
+    // {
+    //     return $this->belongsTo(Restaurante::class);
+    // }
 
     public function insumos()
     {

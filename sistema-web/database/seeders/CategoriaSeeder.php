@@ -16,56 +16,47 @@ class CategoriaSeeder extends Seeder
         //
         Categoria::create([
             'nombre' => 'Carnes',
-            'descripcion' => 'Carnes de res, cerdo, pollo, etc.',
-            'restaurante_id' => 1
+            'descripcion' => 'Carnes de res, cerdo, pollo, etc.'
         ]);
 
         Categoria::create([
             'nombre' => 'Verduras',
-            'descripcion' => 'Verduras frescas y de calidad.',
-            'restaurante_id' => 1
+            'descripcion' => 'Verduras frescas y de calidad.'
         ]);
 
         Categoria::create([
             'nombre' => 'Frutas',
-            'descripcion' => 'Frutas frescas y de calidad.',
-            'restaurante_id' => 1
+            'descripcion' => 'Frutas frescas y de calidad.'
         ]);
 
         Categoria::create([
             'nombre' => 'Lácteos',
-            'descripcion' => 'Leche, queso, mantequilla, etc.',
-            'restaurante_id' => 1
+            'descripcion' => 'Leche, queso, mantequilla, etc.'
         ]);
 
         Categoria::create([
             'nombre' => 'Pescados',
-            'descripcion' => 'Pescados frescos y de calidad.',
-            'restaurante_id' => 1
+            'descripcion' => 'Pescados frescos y de calidad.'
         ]);
 
         Categoria::create([
             'nombre' => 'Condimentos',
-            'descripcion' => 'Sal, azúcar, pimienta, etc.',
-            'restaurante_id' => 1
+            'descripcion' => 'Sal, azúcar, pimienta, etc.'
         ]);
 
         Categoria::create([
             'nombre' => 'Bebidas',
-            'descripcion' => 'Bebidas gaseosas, jugos, cervezas, etc.',
-            'restaurante_id' => 1
+            'descripcion' => 'Bebidas gaseosas, jugos, cervezas, etc.'
         ]);
 
         Categoria::create([
             'nombre' => 'Otros',
-            'descripcion' => 'Otros insumos.',
-            'restaurante_id' => 1
+            'descripcion' => 'Otros insumos.'
         ]);
 
-        Categoria::create(attributes: [
+        Categoria::create([
             'nombre' => 'Cereales y granos',
-            'descripcion' => 'Abarrotes varios.',
-            'restaurante_id' => 1
+            'descripcion' => 'Abarrotes varios.'
         ]);
     }
 }

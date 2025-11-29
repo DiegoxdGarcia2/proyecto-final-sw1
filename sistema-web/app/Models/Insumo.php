@@ -18,11 +18,6 @@ class Insumo extends Model
         'unidad_medida_id',
     ];
 
-    public function restaurante()
-    {
-        return $this->belongsTo(Restaurante::class);
-    }
-
     public function unidad_medida()
     {
         return $this->belongsTo(UnidadMedida::class);
